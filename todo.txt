@@ -1,0 +1,4 @@
+﻿* Cache github requests
+* Add Author, README link, and other attributes
+* Add 2nd application
+* Discover application on github
