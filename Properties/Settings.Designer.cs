@@ -22,5 +22,16 @@ namespace iRacingReplayDirectorInstaller.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public iRacingReplayDirectorInstaller.GitHubCachedReleases[] Releases {
+            get {
+                return ((iRacingReplayDirectorInstaller.GitHubCachedReleases[])(this["Releases"]));
+            }
+            set {
+                this["Releases"] = value;
+            }
+        }
     }
 }

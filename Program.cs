@@ -13,7 +13,7 @@ namespace iRacingReplayDirectorInstaller
         [STAThread]
         static void Main()
         {
-            Client = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("iracing-replay-director-installer2"));
+            Client = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("iracing-replay-director-installer"));
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

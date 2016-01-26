@@ -67,7 +67,7 @@
             this.MaximizeBox = false;
             this.Name = "LoadingReleases";
             this.Opacity = 0.95D;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LoadingReleases";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.LoadingReleases_Load);

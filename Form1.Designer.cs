@@ -230,6 +230,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Application Version Manager";
+            this.Activated += new System.EventHandler(this.Form1_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.progressPanel.ResumeLayout(false);
             this.progressPanel.PerformLayout();

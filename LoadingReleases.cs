@@ -8,18 +8,20 @@ namespace iRacingReplayDirectorInstaller
 {
     public partial class LoadingReleases : Form
     {
-        public IReadOnlyList<Release> releases;
+        internal VersionItem[] versions;
+        private readonly ReleaseInstaller installer;
 
-        public LoadingReleases()
+        public LoadingReleases(ReleaseInstaller installer)
         {
             InitializeComponent();
+            this.installer = installer;
         }
 
         private async void LoadingReleases_Load(object sender, EventArgs e)
         {
             try
             {
-                releases = await Program.Client.Release.GetAll("vipoo", "iRacingReplayOverlay.net");
+                versions = await installer.AvailableVersions();
                 this.Hide();
             }
             catch(RateLimitExceededException)

@@ -1,13 +1,7 @@
-﻿using IWshRuntimeLibrary;
-using Octokit;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -17,67 +11,36 @@ namespace iRacingReplayDirectorInstaller
 {
     public partial class Form1 : Form
     {
-        class VersionItem
-        {
-            public string VersionStamp;
-            public string DateTimeStamp;
-        }
-
-        IReadOnlyList<Release> releases;
-        WebClient WebClient;
         Timer processRunningWatcher;
-        private string programFilesPath;
-        private string appPath;
-        private string downloadFilePath;
-        private string mainExePath;
-        private string shortCutPath;
-        private string iconPath;
         bool isInstalling = false;
+        private ReleaseInstaller installer;
+        private VersionItem[] versions;
 
         public Form1()
         {
             InitializeComponent();
-
-            programFilesPath = Environment.GetEnvironmentVariable("PROGRAMFILES");
-            appPath = programFilesPath + "\\iRacingReplayDirector";
-            downloadFilePath = appPath + "\\release.zip";
-            mainExePath = appPath + "\\iRacingReplayOverlay.exe";
-            shortCutPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\iRacing Replay Director.lnk";
-            iconPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\images.ico";
-
-            var f = new LoadingReleases();
-            f.ShowDialog();
-            this.releases = f.releases;
-            f.Close();
-
-            WebClient = new WebClient();
+            installer = new ReleaseInstaller("vipoo", "iRacingReplayOverlay.net");
         }
 
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            if (WebClient != null)
-                WebClient.Dispose();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
-            processRunningWatcher = new System.Windows.Forms.Timer();
+            base.OnLoad(e);
+
+        }
+        
+        private  void Form1_Load(object sender, EventArgs e)
+        {
+            processRunningWatcher = new Timer();
             processRunningWatcher.Interval = 10;
             processRunningWatcher.Tick += (s, a) => OnCheckProcessCount();
             processRunningWatcher.Start();
-
-            twoColumnDropDown();
             
-            versionSelector.Items.Clear();
-
-            foreach(var r in releases)
-            {
-                var i = new VersionItem { VersionStamp = r.TagName, DateTimeStamp = r.CreatedAt.ToString() };
-                versionSelector.Items.Add(i);
-            }
-
-            versionSelector.Enabled = true;
+            twoColumnDropDown();
         }
 
         private void OnCheckProcessCount()
@@ -86,14 +49,13 @@ namespace iRacingReplayDirectorInstaller
             isRunningWarningPanel.Top = (this.Height / 2) - (isRunningWarningPanel.Height / 2);
             versionSelector_SelectedIndexChanged(null, null);
             versionSelector.Enabled = !this.isInstalling;
-            openApplication.Enabled = !this.isInstalling;
 
             try
             {
-                if (System.IO.File.Exists(mainExePath))
+                if (System.IO.File.Exists(installer.MainExePath))
                 {
-                    currentVersion.Text = AssemblyName.GetAssemblyName(mainExePath).Version.ToString();
-                    openApplication.Enabled = true;
+                    currentVersion.Text = AssemblyName.GetAssemblyName(installer.MainExePath).Version.ToString();
+                    openApplication.Enabled = true && !this.isInstalling;
                 }
                 else
                     openApplication.Enabled = false;
@@ -166,38 +128,13 @@ namespace iRacingReplayDirectorInstaller
             {
                 var versionToInstall = (VersionItem)versionSelector.SelectedItem;
 
-                Directory.CreateDirectory(appPath);
+                
 
                 progressBar1.Value = 0;
                 progressPanel.Visible = true;
 
-                var latestRelease = releases.Where(r => r.TagName == versionToInstall.VersionStamp).First();
+                await installer.install(versionToInstall.VersionStamp, p => progressBar1.Value = p);
 
-                var assets = await Program.Client.Release.GetAllAssets("vipoo", "iRacingReplayOverlay.net", latestRelease.Id);
-
-                var asset = assets.First();
-
-                WebClient.DownloadProgressChanged += (s, ee) =>
-                {
-                    progressBar1.Value = ee.ProgressPercentage;
-                    Trace.WriteLine(Math.Min(ee.ProgressPercentage, 95));
-                };
-
-                await WebClient.DownloadFileTaskAsync(new Uri(asset.BrowserDownloadUrl), downloadFilePath);
-
-                var di = new DirectoryInfo(appPath);
-
-                foreach (FileInfo file in di.GetFiles().Where(f => !f.Name.EndsWith("release.zip")))
-                    file.Delete();
-
-                await Task.Delay(1000);
-
-                foreach (FileInfo file in di.GetFiles().Where(f => !f.Name.EndsWith("release.zip")))
-                    file.Delete();
-
-                ZipFile.ExtractToDirectory(downloadFilePath, appPath);
-
-                createShortCut();
                 progressBar1.Value = 100;
                 await Task.Delay(200);
                 progressPanel.Visible = false;
@@ -206,17 +143,6 @@ namespace iRacingReplayDirectorInstaller
             {
                 isInstalling = false;
             }
-        }
-
-        private void createShortCut()
-        {
-            var shell = new WshShell();
-            var shortcut = (IWshShortcut)shell.CreateShortcut(shortCutPath);
-
-            shortcut.Description = "iRacing Replay Director (x.x.x.x)";  
-            shortcut.IconLocation = iconPath;
-            shortcut.TargetPath = mainExePath;
-            shortcut.Save();
         }
 
         private void versionSelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -241,7 +167,25 @@ namespace iRacingReplayDirectorInstaller
                 SetForegroundWindow(processes.First().MainWindowHandle);
             }
             else
-                Process.Start(mainExePath);
+                Process.Start(installer.MainExePath);
+        }
+
+        bool hasInited = false;
+
+        private async void Form1_Activated(object sender, EventArgs e)
+        {
+            if (hasInited)
+                return;
+
+            hasInited = true;
+            versionSelector.Items.Clear();
+
+            versions = await installer.AvailableVersions();
+
+            foreach (var v in versions)
+                versionSelector.Items.Add(v);
+
+            versionSelector.Enabled = true;
         }
     }
 }
