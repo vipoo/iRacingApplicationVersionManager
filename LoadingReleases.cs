@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace iRacingReplayDirectorInstaller
+namespace iRacingApplicationVersionManger
 {
     public partial class LoadingReleases : Form
     {

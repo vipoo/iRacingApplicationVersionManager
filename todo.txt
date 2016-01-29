@@ -1,4 +1,9 @@
-﻿* Cache github requests
-* Add Author, README link, and other attributes
-* Add 2nd application
-* Discover application on github
+﻿1. On first run, download latest release & then chain open it
+2. Add button to application, to open uploader
+3. Update open button, to chain open main application
+4. Add new release detection, and notify user of new version in main app
+
+Misc:
+* Keep downloaded releases (names after repo/project)
+* Uninstall ??
+

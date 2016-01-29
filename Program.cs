@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace iRacingReplayDirectorInstaller
+namespace iRacingApplicationVersionManger
 {
     static class Program
     {
@@ -14,10 +14,18 @@ namespace iRacingReplayDirectorInstaller
         static void Main()
         {
             Client = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("iracing-replay-director-installer"));
+            var installer = new ReleaseInstaller("vipoo", "iRacingReplayOverlay.net");
+
+            var currentInstalledVersion = installer.CurrentInstalledVersion;
+            if (currentInstalledVersion != null)
+            {
+                installer.Run();
+                return;
+            }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new InitialInstallationForm(installer));
         }
     }
 }

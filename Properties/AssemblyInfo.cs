@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("iRacingReplayDirectorInstaller")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("iRacingApplicationVersionManger")]
+[assembly: AssemblyDescription("Tool to install and update add on applications for iRacing")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("iRacingReplayDirectorInstaller")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("iRacing Application Version Manger")]
+[assembly: AssemblyCopyright("Dean Netherton Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

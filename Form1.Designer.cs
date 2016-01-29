@@ -1,4 +1,4 @@
-﻿namespace iRacingReplayDirectorInstaller
+﻿namespace iRacingApplicationVersionManger
 {
     partial class Form1
     {

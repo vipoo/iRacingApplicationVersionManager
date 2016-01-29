@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace iRacingReplayDirectorInstaller
+namespace iRacingApplicationVersionManger
 {
     public struct VersionItem
     {
@@ -59,7 +59,7 @@ namespace iRacingReplayDirectorInstaller
 
             if (cacheHit != null)
             {
-                await Task.Delay(3000).ConfigureAwait(true);
+                await Task.Delay(1000).ConfigureAwait(true);
                 return cacheHit.Data;
             }
 

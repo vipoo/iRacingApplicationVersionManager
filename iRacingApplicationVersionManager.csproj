@@ -7,8 +7,8 @@
     <ProjectGuid>{1AE85746-75E1-44B2-B79D-3A22A473CC40}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iRacingReplayDirectorInstaller</RootNamespace>
-    <AssemblyName>iRacingReplayDirectorInstaller</AssemblyName>
+    <RootNamespace>iRacingApplicationVersionManger</RootNamespace>
+    <AssemblyName>iRacingApplicationVersionManger</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,6 +38,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Dtafalonso-Modern-Xp-ModernXP-74-Software-Install.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Octokit, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,6 +74,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GitHubAccess.cs" />
+    <Compile Include="InitialInstallationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InitialInstallationForm.Designer.cs">
+      <DependentUpon>InitialInstallationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingReleases.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +91,9 @@
     <Compile Include="ReleaseInstaller.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitialInstallationForm.resx">
+      <DependentUpon>InitialInstallationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadingReleases.resx">
       <DependentUpon>LoadingReleases.cs</DependentUpon>
@@ -127,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Dtafalonso-Modern-Xp-ModernXP-74-Software-Install.ico" />
     <Content Include="images.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

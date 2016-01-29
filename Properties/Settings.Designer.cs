@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iRacingReplayDirectorInstaller.Properties {
+namespace iRacingApplicationVersionManger.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,9 +25,9 @@ namespace iRacingReplayDirectorInstaller.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public iRacingReplayDirectorInstaller.GitHubCachedReleases[] Releases {
+        public iRacingApplicationVersionManger.GitHubCachedReleases[] Releases {
             get {
-                return ((iRacingReplayDirectorInstaller.GitHubCachedReleases[])(this["Releases"]));
+                return ((iRacingApplicationVersionManger.GitHubCachedReleases[])(this["Releases"]));
             }
             set {
                 this["Releases"] = value;

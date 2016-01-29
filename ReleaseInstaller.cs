@@ -1,13 +1,15 @@
 ﻿using IWshRuntimeLibrary;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace iRacingReplayDirectorInstaller
+namespace iRacingApplicationVersionManger
 {
     public class ReleaseInstaller
     {
@@ -27,7 +29,7 @@ namespace iRacingReplayDirectorInstaller
             this.repo = repo;
 
             var programFilesPath = Environment.GetEnvironmentVariable("PROGRAMFILES");
-            appPath = Path.Combine(programFilesPath, user, repo);
+            appPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
             downloadFilePath = appPath + "\\release.zip";
             mainExePath = appPath + "\\iRacingReplayOverlay.exe";
             shortCutPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\iRacing Replay Director.lnk";
@@ -46,6 +48,33 @@ namespace iRacingReplayDirectorInstaller
         public async Task<VersionItem[]> AvailableVersions()
         {
             return await GitHubAccess.GetVersions(user, repo).ConfigureAwait(true);
+        }
+
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        public void Run()
+        {
+            var processes = Process.GetProcessesByName("iRacingReplayOverlay");
+            if (processes.Length > 0)
+            {
+                SetForegroundWindow(processes.First().MainWindowHandle);
+            }
+            else
+                Process.Start(mainExePath);
+        }
+
+        public string CurrentInstalledVersion
+        {
+            get
+            {
+                if (System.IO.File.Exists(mainExePath))
+                {
+                    return AssemblyName.GetAssemblyName(mainExePath).Version.ToString();
+                }
+
+                return null;
+            }
         }
 
         static void CreateReleaseDirectory(string appPath)

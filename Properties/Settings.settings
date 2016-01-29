@@ -1,8 +1,8 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRacingReplayDirectorInstaller.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRacingApplicationVersionManger.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Releases" Type="iRacingReplayDirectorInstaller.GitHubCachedReleases[]" Scope="User">
+    <Setting Name="Releases" Type="iRacingApplicationVersionManger.GitHubCachedReleases[]" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

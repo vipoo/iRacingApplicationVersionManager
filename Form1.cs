@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace iRacingReplayDirectorInstaller
+namespace iRacingApplicationVersionManger
 {
     public partial class Form1 : Form
     {
@@ -127,8 +127,6 @@ namespace iRacingReplayDirectorInstaller
             try
             {
                 var versionToInstall = (VersionItem)versionSelector.SelectedItem;
-
-                
 
                 progressBar1.Value = 0;
                 progressPanel.Visible = true;
