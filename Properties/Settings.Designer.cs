@@ -34,5 +34,17 @@ namespace iRacingApplicationVersionManger.Properties {
                 this["Releases"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MainExecPath {
+            get {
+                return ((string)(this["MainExecPath"]));
+            }
+            set {
+                this["MainExecPath"] = value;
+            }
+        }
     }
 }

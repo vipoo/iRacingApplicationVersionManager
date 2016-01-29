@@ -16,10 +16,11 @@ namespace iRacingApplicationVersionManger
         readonly string user;
         readonly string repo;
         readonly string appPath;
-        readonly string downloadFilePath;
         readonly string shortCutPath;
         readonly string iconPath;
         readonly string mainExePath;
+        readonly string downloadPath;
+        readonly string tmpPath;
 
         public string MainExePath { get { return mainExePath; } }
 
@@ -29,20 +30,36 @@ namespace iRacingApplicationVersionManger
             this.repo = repo;
 
             var programFilesPath = Environment.GetEnvironmentVariable("PROGRAMFILES");
-            appPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
-            downloadFilePath = appPath + "\\release.zip";
+            appPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "current");
+            tmpPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "tmp");
+            downloadPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
             mainExePath = appPath + "\\iRacingReplayOverlay.exe";
             shortCutPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\iRacing Replay Director.lnk";
             iconPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\images.ico";
         }
 
         public async Task install(string versionStamp, Action<int> progress) {
+            var downloadFilePath = Path.Combine(downloadPath, "version-" + versionStamp + ".release.zip");
+
+            if (!System.IO.File.Exists(downloadFilePath))
+            {
+                CreateReleaseDirectory(downloadPath);
+                var releaseDownloadUrl = await GetReleaseDownloadUrl(user, repo, versionStamp);
+                await DownloadReleaseZip(progress, downloadFilePath, releaseDownloadUrl);
+            }
+            RemoveCurrentRelease();
+            InstallNewRelease(downloadFilePath);
+            //await Task.Delay(1500);
+            createShortCut(shortCutPath, iconPath, mainExePath);
+        }
+
+        public async Task download(string versionStamp, Action<int> progress)
+        {
+            var downloadFilePath = Path.Combine(appPath, "..", "version-" + versionStamp + ".release.zip");
+
             CreateReleaseDirectory(appPath);
             var releaseDownloadUrl = await GetReleaseDownloadUrl(user, repo, versionStamp);
             await DownloadReleaseZip(progress, downloadFilePath, releaseDownloadUrl);
-            await RemoveCurrentRelease(appPath);
-            InstallNewRelease(appPath, downloadFilePath);
-            createShortCut(shortCutPath, iconPath, mainExePath);
         }
 
         public async Task<VersionItem[]> AvailableVersions()
@@ -82,21 +99,20 @@ namespace iRacingApplicationVersionManger
             Directory.CreateDirectory(appPath);
         }
 
-        static void InstallNewRelease(string appPath, string downloadFilePath)
+        void InstallNewRelease(string downloadFilePath)
         {
-            ZipFile.ExtractToDirectory(downloadFilePath, appPath);
+            var di = new DirectoryInfo(tmpPath);
+            if( di.Exists)
+                di.Delete(true);
+            ZipFile.ExtractToDirectory(downloadFilePath, tmpPath);
+            di.MoveTo(appPath);
         }
 
-        static async Task RemoveCurrentRelease(string appPath)
+        void RemoveCurrentRelease()
         {
             var di = new DirectoryInfo(appPath);
-            foreach (FileInfo file in di.GetFiles().Where(f => !f.Name.EndsWith("release.zip")))
-                file.Delete();
-
-            await Task.Delay(1000);
-
-            foreach (FileInfo file in di.GetFiles().Where(f => !f.Name.EndsWith("release.zip")))
-                file.Delete();
+            if( di.Exists)
+                di.Delete(true);
         }
 
         static async Task DownloadReleaseZip(Action<int> progress, string downloadFilePath, string releaseDownloadUrl)
@@ -122,6 +138,12 @@ namespace iRacingApplicationVersionManger
             shortcut.IconLocation = iconPath;
             shortcut.TargetPath = mainExePath;
             shortcut.Save();
+        }
+
+        internal bool IsVersionDownloaded(string versionStamp)
+        {
+            var downloadFilePath = Path.Combine(downloadPath, "version-" + versionStamp + ".release.zip");
+            return System.IO.File.Exists(downloadFilePath);
         }
     }
 }

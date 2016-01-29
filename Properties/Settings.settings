@@ -5,5 +5,8 @@
     <Setting Name="Releases" Provider="PortableSettingsProvider" Type="iRacingApplicationVersionManger.GitHubCachedReleases[]" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MainExecPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

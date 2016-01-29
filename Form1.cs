@@ -88,11 +88,11 @@ namespace iRacingApplicationVersionManger
           
                 // Retrieve the value of each column.
                 string id = drv.VersionStamp;
-                string name = "  " + drv.DateTimeStamp;
+                string name = " " + drv.DateTimeStamp;
 
                 // Get the bounds for the first column
                 Rectangle r1 = args.Bounds;
-                r1.Width /= 2;
+                r1.Width = 120;
 
                 // Draw the text on the first column
                 using (SolidBrush sb = new SolidBrush(args.ForeColor))
@@ -108,7 +108,7 @@ namespace iRacingApplicationVersionManger
 
                 // Get the bounds for the second column
                 Rectangle r2 = args.Bounds;
-                r2.X = args.Bounds.Width / 2;
+                r2.X = r1.Width;
                 r2.Width /= 2;
 
                 // Draw the text on the second column
@@ -121,7 +121,7 @@ namespace iRacingApplicationVersionManger
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            button1.Enabled = false;
+            installButton.Enabled = downloadButton.Enabled = false;
             isInstalling = true;
             versionSelector.Enabled = false;
             try
@@ -131,7 +131,7 @@ namespace iRacingApplicationVersionManger
                 progressBar1.Value = 0;
                 progressPanel.Visible = true;
 
-                await installer.install(versionToInstall.VersionStamp, p => progressBar1.Value = p);
+                await installer.download(versionToInstall.VersionStamp, p => progressBar1.Value = p);
 
                 progressBar1.Value = 100;
                 await Task.Delay(200);
@@ -145,7 +145,15 @@ namespace iRacingApplicationVersionManger
 
         private void versionSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.Enabled = versionSelector.SelectedIndex != -1 && !currentApplicationIsRunning() && !isInstalling;
+            installButton.Enabled = downloadButton.Enabled = versionSelector.SelectedIndex != -1 && !currentApplicationIsRunning() && !isInstalling;
+
+            if (versionSelector.SelectedItem != null)
+            {
+                var versionToInstall = (VersionItem)versionSelector.SelectedItem;
+                downloadButton.Text = installer.IsVersionDownloaded(versionToInstall.VersionStamp) ? "Re-download" : "download";
+            }
+            else
+                downloadButton.Text = "download";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -166,6 +174,8 @@ namespace iRacingApplicationVersionManger
             }
             else
                 Process.Start(installer.MainExePath);
+
+            this.Close();
         }
 
         bool hasInited = false;
@@ -184,6 +194,30 @@ namespace iRacingApplicationVersionManger
                 versionSelector.Items.Add(v);
 
             versionSelector.Enabled = true;
+        }
+
+        private async void installButton_Click(object sender, EventArgs e)
+        {
+            installButton.Enabled = downloadButton.Enabled = false;
+            isInstalling = true;
+            versionSelector.Enabled = false;
+            try
+            {
+                var versionToInstall = (VersionItem)versionSelector.SelectedItem;
+
+                progressBar1.Value = 0;
+                progressPanel.Visible = true;
+
+                await installer.install(versionToInstall.VersionStamp, p => progressBar1.Value = p);
+
+                progressBar1.Value = 100;
+                await Task.Delay(200);
+                progressPanel.Visible = false;
+            }
+            finally
+            {
+                isInstalling = false;
+            }
         }
     }
 }

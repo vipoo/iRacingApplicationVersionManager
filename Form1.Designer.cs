@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.versionSelector = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.downloadButton = new System.Windows.Forms.Button();
             this.progressPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -45,6 +45,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.installButton = new System.Windows.Forms.Button();
             this.progressPanel.SuspendLayout();
             this.isRunningWarningPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -61,7 +62,7 @@
             "1.0.2.2- Whatever"});
             this.versionSelector.Location = new System.Drawing.Point(15, 215);
             this.versionSelector.Name = "versionSelector";
-            this.versionSelector.Size = new System.Drawing.Size(428, 32);
+            this.versionSelector.Size = new System.Drawing.Size(366, 32);
             this.versionSelector.TabIndex = 3;
             this.versionSelector.SelectedIndexChanged += new System.EventHandler(this.versionSelector_SelectedIndexChanged);
             // 
@@ -74,16 +75,16 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Select a version to install";
             // 
-            // button1
+            // downloadButton
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(449, 215);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(186, 33);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Download && Install";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.downloadButton.Enabled = false;
+            this.downloadButton.Location = new System.Drawing.Point(387, 214);
+            this.downloadButton.Name = "downloadButton";
+            this.downloadButton.Size = new System.Drawing.Size(160, 33);
+            this.downloadButton.TabIndex = 5;
+            this.downloadButton.Text = "Download";
+            this.downloadButton.UseVisualStyleBackColor = true;
+            this.downloadButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // progressPanel
             // 
@@ -205,11 +206,23 @@
             this.panel1.Size = new System.Drawing.Size(623, 10);
             this.panel1.TabIndex = 18;
             // 
+            // installButton
+            // 
+            this.installButton.Enabled = false;
+            this.installButton.Location = new System.Drawing.Point(553, 214);
+            this.installButton.Name = "installButton";
+            this.installButton.Size = new System.Drawing.Size(83, 33);
+            this.installButton.TabIndex = 19;
+            this.installButton.Text = "Install";
+            this.installButton.UseVisualStyleBackColor = true;
+            this.installButton.Click += new System.EventHandler(this.installButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 343);
+            this.Controls.Add(this.installButton);
             this.Controls.Add(this.isRunningWarningPanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
@@ -219,7 +232,7 @@
             this.Controls.Add(this.currentVersion);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.progressPanel);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.downloadButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.versionSelector);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -243,7 +256,7 @@
 
         #endregion
         private System.Windows.Forms.ComboBox versionSelector;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel progressPanel;
         private System.Windows.Forms.Label label2;
@@ -258,6 +271,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button installButton;
     }
 }
 
