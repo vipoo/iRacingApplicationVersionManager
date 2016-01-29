@@ -1,39 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace iRacingApplicationVersionManger
 {
-    public partial class Form1 : Form
+    public partial class VersionManagerForm : Form
     {
         Timer processRunningWatcher;
         bool isInstalling = false;
-        private ReleaseInstaller installer;
-        private VersionItem[] versions;
+        ReleaseInstaller installer;
+        VersionItem[] versions;
 
-        public Form1()
+        public VersionManagerForm()
         {
             InitializeComponent();
             installer = new ReleaseInstaller("vipoo", "iRacingReplayOverlay.net");
         }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-        }
-        
-        private  void Form1_Load(object sender, EventArgs e)
+                
+        void Form1_Load(object sender, EventArgs e)
         {
             processRunningWatcher = new Timer();
             processRunningWatcher.Interval = 10;
@@ -43,7 +29,7 @@ namespace iRacingApplicationVersionManger
             twoColumnDropDown();
         }
 
-        private void OnCheckProcessCount()
+        void OnCheckProcessCount()
         {
             isRunningWarningPanel.Visible = currentApplicationIsRunning();
             isRunningWarningPanel.Top = (this.Height / 2) - (isRunningWarningPanel.Height / 2);
@@ -52,9 +38,10 @@ namespace iRacingApplicationVersionManger
 
             try
             {
-                if (System.IO.File.Exists(installer.MainExePath))
+                var currentInstalledVersion = installer.CurrentInstalledVersion;
+                if (currentInstalledVersion != null)
                 {
-                    currentVersion.Text = AssemblyName.GetAssemblyName(installer.MainExePath).Version.ToString();
+                    currentVersion.Text = currentInstalledVersion;
                     openApplication.Enabled = true && !this.isInstalling;
                 }
                 else
@@ -69,7 +56,7 @@ namespace iRacingApplicationVersionManger
             return Process.GetProcessesByName("iRacingReplayOverlay").Length > 0;
         }
 
-        private void twoColumnDropDown()
+        void twoColumnDropDown()
         {
             this.versionSelector.DrawMode = DrawMode.OwnerDrawFixed;
             // Handle the DrawItem event to draw the items.
@@ -119,7 +106,7 @@ namespace iRacingApplicationVersionManger
             };
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        async void button1_Click(object sender, EventArgs e)
         {
             installButton.Enabled = downloadButton.Enabled = false;
             isInstalling = true;
@@ -143,7 +130,7 @@ namespace iRacingApplicationVersionManger
             }
         }
 
-        private void versionSelector_SelectedIndexChanged(object sender, EventArgs e)
+        void versionSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             installButton.Enabled = downloadButton.Enabled = versionSelector.SelectedIndex != -1 && !currentApplicationIsRunning() && !isInstalling;
 
@@ -156,31 +143,22 @@ namespace iRacingApplicationVersionManger
                 downloadButton.Text = "download";
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        void button2_Click(object sender, EventArgs e)
         {
             foreach (var p in Process.GetProcessesByName("iRacingReplayOverlay"))
                 p.CloseMainWindow();
         }
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        private void openApplication_Click(object sender, EventArgs e)
+        
+        void openApplication_Click(object sender, EventArgs e)
         {
-            var processes = Process.GetProcessesByName("iRacingReplayOverlay");
-            if( processes.Length > 0)
-            {
-                SetForegroundWindow(processes.First().MainWindowHandle);
-            }
-            else
-                Process.Start(installer.MainExePath);
+            installer.Run();
 
             this.Close();
         }
 
         bool hasInited = false;
 
-        private async void Form1_Activated(object sender, EventArgs e)
+        async void Form1_Activated(object sender, EventArgs e)
         {
             if (hasInited)
                 return;
@@ -196,7 +174,7 @@ namespace iRacingApplicationVersionManger
             versionSelector.Enabled = true;
         }
 
-        private async void installButton_Click(object sender, EventArgs e)
+        async void installButton_Click(object sender, EventArgs e)
         {
             installButton.Enabled = downloadButton.Enabled = false;
             isInstalling = true;

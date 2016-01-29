@@ -46,7 +46,7 @@ namespace iRacingApplicationVersionManger
         {
             var release = (await GetVersions(user, repo)).Where(r => r.VersionStamp == versionStamp).First();
 
-            var assets = await Program.Client.Release.GetAllAssets(user, repo, release.Id);
+            var assets = await Client.Release.GetAllAssets(user, repo, release.Id);
             var asset = assets.First();
             return asset.BrowserDownloadUrl;
         }
@@ -63,7 +63,7 @@ namespace iRacingApplicationVersionManger
                 return cacheHit.Data;
             }
 
-            var releases = await Program.Client.Release.GetAll("vipoo", "iRacingReplayOverlay.net");
+            var releases = await Client.Release.GetAll(user, repo);
 
             var versionReleases = releases
                     .Select(r => new VersionItem { DateTimeStamp = r.CreatedAt.ToString(), VersionStamp = r.TagName, Id = r.Id })

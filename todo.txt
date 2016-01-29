@@ -6,4 +6,7 @@
 Misc:
 * Keep downloaded releases (names after repo/project)
 * Uninstall ??
+* Identify beta/stable release versions
+* On init run, only install latest stable release
+
 

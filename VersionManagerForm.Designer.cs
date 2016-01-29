@@ -1,6 +1,6 @@
 ﻿namespace iRacingApplicationVersionManger
 {
-    partial class Form1
+    partial class VersionManagerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionManagerForm));
             this.versionSelector = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.downloadButton = new System.Windows.Forms.Button();
@@ -222,7 +222,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 343);
-            this.Controls.Add(this.installButton);
             this.Controls.Add(this.isRunningWarningPanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
@@ -235,6 +234,7 @@
             this.Controls.Add(this.downloadButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.versionSelector);
+            this.Controls.Add(this.installButton);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

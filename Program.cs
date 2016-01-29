@@ -9,7 +9,6 @@ namespace iRacingApplicationVersionManger
 {
     static class Program
     {
-        public static Octokit.GitHubClient Client { get; private set; }
 
         [STAThread]
         static void Main(string[] arg)
@@ -21,11 +20,10 @@ namespace iRacingApplicationVersionManger
             Settings.Default.MainExecPath = Assembly.GetExecutingAssembly().Location;
             Settings.Default.Save();
 
-            Client = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("iracing-replay-director-installer"));
             var installer = new ReleaseInstaller("vipoo", "iRacingReplayOverlay.net");
 
             if (arg.Contains("-update"))
-                Application.Run(new Form1());
+                Application.Run(new VersionManagerForm());
             else
                 InitialInstallation(installer);
         }
@@ -33,7 +31,7 @@ namespace iRacingApplicationVersionManger
         private static void InitialInstallation(ReleaseInstaller installer)
         {
             var currentInstalledVersion = installer.CurrentInstalledVersion;
-            if (currentInstalledVersion != null)
+            if (currentInstalledVersion == null)
                 installer.Run();
             else
                 Application.Run(new InitialInstallationForm(installer));
