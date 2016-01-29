@@ -14,10 +14,10 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -25,6 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://iracing-application-version-manager.s3-website-ap-southeast-2.amazonaws.com/release/</InstallUrl>
     <SupportUrl>https://github.com/vipoo/iRacingApplicationVersionManager/blob/master/README.md</SupportUrl>
     <ProductName>iRacing Application Version Mananger</ProductName>
     <PublisherName>Dean Netherton</PublisherName>
@@ -125,6 +126,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="README.md" />
+    <None Include="tools\package.cmd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -142,16 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="assets\2015-White-Logo.svg" />
-    <Content Include="assets\download.jpg" />
-    <Content Include="assets\Dtafalonso-Modern-Xp-ModernXP-74-Software-Install.ico" />
-    <Content Include="assets\images.ico">
+    <None Include="assets\2015-White-Logo.svg" />
+    <None Include="assets\download.jpg" />
+    <None Include="assets\Dtafalonso-Modern-Xp-ModernXP-74-Software-Install.ico" />
+    <None Include="assets\images.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\images.jpg" />
-    <Content Include="assets\iracing_logo.png" />
-    <Content Include="assets\ModernXP-74-Software-Install-icon.png" />
-    <Content Include="assets\small-header-logo.png" />
+    </None>
+    <None Include="assets\images.jpg" />
+    <None Include="assets\iracing_logo.png" />
+    <None Include="assets\ModernXP-74-Software-Install-icon.png" />
+    <None Include="assets\small-header-logo.png" />
     <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +184,26 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="iRacingApplicationVersionManger.pdb">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Octokit.pdb">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
