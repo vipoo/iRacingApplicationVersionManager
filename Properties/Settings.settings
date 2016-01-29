@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRacingApplicationVersionManger.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Releases" Type="iRacingApplicationVersionManger.GitHubCachedReleases[]" Scope="User">
+    <Setting Name="Releases" Provider="PortableSettingsProvider" Type="iRacingApplicationVersionManger.GitHubCachedReleases[]" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

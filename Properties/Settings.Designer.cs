@@ -24,6 +24,7 @@ namespace iRacingApplicationVersionManger.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public iRacingApplicationVersionManger.GitHubCachedReleases[] Releases {
             get {
