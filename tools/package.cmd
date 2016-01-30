@@ -6,7 +6,7 @@ msbuild iRacingApplicationVersionManager.csproj -p:SolutionDir=%cd%\            
                                         -p:Configuration=Release                                                                ^
                                         -t:rebuild                                                                              ^
                                         -t:publish                                                                              ^
-                                        -p:"InstallUrl=https://s3-ap-southeast-2.amazonaws.com/iracing-application-version-manager/release/"  ^
+                                        -p:"InstallUrl=https://iracing-application-version-manager.s3.amazonaws.com/release/"   ^
                                         -p:ApplicationVersion=%APPVEYOR_BUILD_VERSION%                                          ^
                                         -v:minimal                                          
  

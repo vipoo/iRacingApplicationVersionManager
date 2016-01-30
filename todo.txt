@@ -6,7 +6,7 @@ DONE: Update open button, to chain open main application
 Misc:
 * DONE: Keep downloaded releases (names after repo/project)
 * Uninstall ??
-* Identify beta/stable release versions
+* DONE: Identify beta/stable release versions
 * DONE: On init run, only install latest stable release
 * Add log tracing..
 
