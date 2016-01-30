@@ -9,6 +9,7 @@ msbuild iRacingApplicationVersionManager.csproj -p:SolutionDir=%cd%\            
                                         -p:ApplicationVersion=%APPVEYOR_BUILD_VERSION%                                          ^
                                         -v:minimal                                          
  
+
 cd bin\x64\Release\app.publish
 for /D %%F in ("Application Files\*") do (
     appveyor PushArtifact "%%F\iRacingApplicationVersionManger.exe.config.deploy" -FileName "release\%%F\iRacingApplicationVersionManger.exe.config.deploy" -DeploymentName deploy 
