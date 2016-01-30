@@ -1,4 +1,4 @@
-﻿
+
 @echo off
 echo 'Building package' %APPVEYOR_BUILD_VERSION%
 
@@ -21,7 +21,7 @@ for /D %%F in ("Application Files\*") do (
     appveyor PushArtifact "%%F\Octokit.pdb.deploy"                                -FileName "release\%%F\Octokit.pdb.deploy"                                -DeploymentName deploy 
 )
 
-appveyor PushArtifact setup.exe                             -FileName "release\setup.exe"                                    -DeploymentName deploy
-appveyor PushArtifact iRacingReplayOverlay.test.application -FileName "release\iRacingApplicationVersionManger.application"  -DeploymentName deploy
+appveyor PushArtifact setup.exe                                   -FileName "release\setup.exe"                                    -DeploymentName deploy
+appveyor PushArtifact iRacingApplicationVersionManger.application -FileName "release\iRacingApplicationVersionManger.application"  -DeploymentName deploy
 cd ..\..\..
 
