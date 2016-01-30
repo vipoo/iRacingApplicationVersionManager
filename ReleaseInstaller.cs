@@ -34,7 +34,7 @@ namespace iRacingApplicationVersionManger
             tmpPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "tmp");
             downloadPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
             mainExePath = appPath + "\\iRacingReplayOverlay.exe";
-            shortCutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "iRacing Applications"); // + "\\iRacing Replay Director.lnk";
+            shortCutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "iRacing Applications"); 
         }
 
         public async Task install(string versionStamp, Action<int> progress) {
@@ -68,7 +68,7 @@ namespace iRacingApplicationVersionManger
             if (processes.Length > 0)
                 SetForegroundWindow(processes.First().MainWindowHandle);
             else
-                Process.Start(mainExePath);
+                DeElevatedProcess.Start(mainExePath);
         }
 
         public string CurrentInstalledVersion

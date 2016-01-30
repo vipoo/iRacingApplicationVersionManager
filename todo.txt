@@ -8,5 +8,6 @@ Misc:
 * Uninstall ??
 * Identify beta/stable release versions
 * DONE: On init run, only install latest stable release
+* Add log tracing..
 
 

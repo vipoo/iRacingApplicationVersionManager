@@ -1,7 +1,9 @@
 ﻿using iRacingApplicationVersionManger.Properties;
+using IWshRuntimeLibrary;
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
@@ -26,6 +28,8 @@ namespace iRacingApplicationVersionManger
                 RunAsAdministrator(args);
                 return;
             }
+
+            CreateUpdateShortCut();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -77,6 +81,23 @@ namespace iRacingApplicationVersionManger
             foreach (SettingsProperty p in settings.Properties)
                 p.Provider = pp;
             settings.Reload();
+        }
+
+        static void CreateUpdateShortCut()
+        {
+            var name = "iRacing Application Updates";
+
+            var shortCutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "Dean Netherton"); 
+            Directory.CreateDirectory(shortCutPath);
+            var shortCutFilePath = Path.Combine(shortCutPath, name + ".lnk");
+
+            var shell = new WshShell();
+            var shortcut = (IWshShortcut)shell.CreateShortcut(shortCutFilePath);
+
+            shortcut.Description = name;
+            shortcut.Arguments = "-update";
+            shortcut.TargetPath = Assembly.GetExecutingAssembly().Location;
+            shortcut.Save();
         }
     }
 }
