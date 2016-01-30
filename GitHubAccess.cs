@@ -11,6 +11,7 @@ namespace iRacingApplicationVersionManger
         public int Id;
         public string VersionStamp;
         public string DateTimeStamp;
+        public bool Prerelease;
     }
 
     public struct RepoKey
@@ -59,14 +60,14 @@ namespace iRacingApplicationVersionManger
 
             if (cacheHit != null)
             {
-                await Task.Delay(1000).ConfigureAwait(true);
+                await Task.Delay(1).ConfigureAwait(true);
                 return cacheHit.Data;
             }
 
             var releases = await Client.Release.GetAll(user, repo);
 
             var versionReleases = releases
-                    .Select(r => new VersionItem { DateTimeStamp = r.CreatedAt.ToString(), VersionStamp = r.TagName, Id = r.Id })
+                    .Select(r => new VersionItem { Prerelease = r.Prerelease, DateTimeStamp = r.CreatedAt.ToString(), VersionStamp = r.TagName, Id = r.Id })
                     .ToArray();
 
             allReleases.Add(new GitHubCachedReleases { Key = key, Data = versionReleases, RetreivedAt = DateTime.Now });

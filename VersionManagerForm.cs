@@ -72,7 +72,7 @@ namespace iRacingApplicationVersionManger
                 // so the items are DataRowView objects.
                 var drv = (VersionItem)this.versionSelector.Items[args.Index];
 
-          
+
                 // Retrieve the value of each column.
                 string id = drv.VersionStamp;
                 string name = " " + drv.DateTimeStamp;
@@ -164,12 +164,7 @@ namespace iRacingApplicationVersionManger
                 return;
 
             hasInited = true;
-            versionSelector.Items.Clear();
-
-            versions = await installer.AvailableVersions();
-
-            foreach (var v in versions)
-                versionSelector.Items.Add(v);
+            await RefreshVersionList();
 
             versionSelector.Enabled = true;
         }
@@ -196,6 +191,22 @@ namespace iRacingApplicationVersionManger
             {
                 isInstalling = false;
             }
+        }
+
+        private void prereleaseCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshVersionList();
+        }
+
+        private async Task RefreshVersionList()
+        {
+            versionSelector.Items.Clear();
+
+            versions = await installer.AvailableVersions();
+
+            foreach (var v in versions)
+                if ((v.Prerelease && prereleaseCheck.Checked) || !v.Prerelease)
+                    versionSelector.Items.Add(v);
         }
     }
 }

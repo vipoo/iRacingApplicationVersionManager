@@ -46,6 +46,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.installButton = new System.Windows.Forms.Button();
+            this.prereleaseCheck = new System.Windows.Forms.CheckBox();
             this.progressPanel.SuspendLayout();
             this.isRunningWarningPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -217,7 +218,19 @@
             this.installButton.UseVisualStyleBackColor = true;
             this.installButton.Click += new System.EventHandler(this.installButton_Click);
             // 
-            // Form1
+            // prereleaseCheck
+            // 
+            this.prereleaseCheck.AutoSize = true;
+            this.prereleaseCheck.Location = new System.Drawing.Point(15, 256);
+            this.prereleaseCheck.Name = "prereleaseCheck";
+            this.prereleaseCheck.Size = new System.Drawing.Size(196, 28);
+            this.prereleaseCheck.TabIndex = 21;
+            this.prereleaseCheck.Text = "Include Prereleases";
+            this.prereleaseCheck.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.prereleaseCheck.UseVisualStyleBackColor = true;
+            this.prereleaseCheck.CheckedChanged += new System.EventHandler(this.prereleaseCheck_CheckedChanged);
+            // 
+            // VersionManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -235,13 +248,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.versionSelector);
             this.Controls.Add(this.installButton);
+            this.Controls.Add(this.prereleaseCheck);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "VersionManagerForm";
             this.Text = "Application Version Manager";
             this.Activated += new System.EventHandler(this.Form1_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -272,6 +286,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button installButton;
+        private System.Windows.Forms.CheckBox prereleaseCheck;
     }
 }
 
