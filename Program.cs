@@ -64,7 +64,7 @@ namespace iRacingApplicationVersionManger
         private static void InitialInstallation(ReleaseInstaller installer)
         {
             var currentInstalledVersion = installer.CurrentInstalledVersion;
-            if (currentInstalledVersion == null)
+            if (currentInstalledVersion != null)
                 installer.Run();
             else
                 Application.Run(new InitialInstallationForm(installer));
