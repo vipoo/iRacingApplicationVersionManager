@@ -1,4 +1,5 @@
-﻿@echo off
+﻿
+@echo off
 echo 'Building package' %APPVEYOR_BUILD_VERSION%
 
 msbuild iRacingApplicationVersionManager.csproj -p:SolutionDir=%cd%\                                                            ^
@@ -10,7 +11,7 @@ msbuild iRacingApplicationVersionManager.csproj -p:SolutionDir=%cd%\            
                                         -v:minimal                                          
  
 
-cd bin\x64\Release\app.publish
+cd bin\Release\app.publish
 for /D %%F in ("Application Files\*") do (
     appveyor PushArtifact "%%F\iRacingApplicationVersionManger.exe.config.deploy" -FileName "release\%%F\iRacingApplicationVersionManger.exe.config.deploy" -DeploymentName deploy 
     appveyor PushArtifact "%%F\iRacingApplicationVersionManger.exe.deploy"        -FileName "release\%%F\iRacingApplicationVersionManger.exe.deploy"        -DeploymentName deploy 
@@ -22,5 +23,5 @@ for /D %%F in ("Application Files\*") do (
 
 appveyor PushArtifact setup.exe                             -FileName "release\setup.exe"                                    -DeploymentName deploy
 appveyor PushArtifact iRacingReplayOverlay.test.application -FileName "release\iRacingApplicationVersionManger.application"  -DeploymentName deploy
-cd ..\..\..\..
+cd ..\..\..
 
