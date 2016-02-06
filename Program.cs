@@ -34,7 +34,7 @@ namespace iRacingApplicationVersionManger
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            PortableSettingsProvider.MakePortable(Settings.Default);
+            IracingApplicationVersionManagerProvider.MakePortable(Settings.Default);
             Settings.Default.MainExecPath = Assembly.GetExecutingAssembly().Location;
             Settings.Default.Save();
 

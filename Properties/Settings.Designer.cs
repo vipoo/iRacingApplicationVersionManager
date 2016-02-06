@@ -24,7 +24,7 @@ namespace iRacingApplicationVersionManger.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IracingApplicationVersionManagerProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public GitHubReleases.GitHubCachedReleases[] GitHubCachedReleases {
             get {
@@ -36,7 +36,7 @@ namespace iRacingApplicationVersionManger.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(IracingApplicationVersionManagerProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MainExecPath {

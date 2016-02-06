@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRacingApplicationVersionManger.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GitHubCachedReleases" Provider="PortableSettingsProvider" Type="GitHubReleases.GitHubCachedReleases[]" Scope="User">
+    <Setting Name="GitHubCachedReleases" Provider="IracingApplicationVersionManagerProvider" Type="GitHubReleases.GitHubCachedReleases[]" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MainExecPath" Provider="PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="MainExecPath" Provider="IracingApplicationVersionManagerProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
