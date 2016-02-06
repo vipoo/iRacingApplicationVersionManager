@@ -58,7 +58,7 @@ namespace iRacingApplicationVersionManger
             var allReleases = Properties.Settings.Default.Releases == null ? new List<GitHubCachedReleases>() : Properties.Settings.Default.Releases.ToList();
             var cacheHit = allReleases.FirstOrDefault(r => r.Key.Equals(key));
 
-            if (cacheHit != null)
+            if (cacheHit != null && cacheHit.RetreivedAt.AddHours(1) > DateTime.Now)
             {
                 await Task.Delay(1).ConfigureAwait(true);
                 return cacheHit.Data;
