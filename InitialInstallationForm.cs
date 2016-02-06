@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace iRacingApplicationVersionManger
 {
-    public partial class InitialInstallationForm : Form
+    internal partial class InitialInstallationForm : Form
     {
         readonly ReleaseInstaller installer;
 
@@ -31,7 +31,7 @@ namespace iRacingApplicationVersionManger
                 installer.Run();
                 this.Close();
             }
-            catch(RateLimitExceededException)
+            catch (RateLimitExceededException)
             {
                 MessageBox.Show("Rate Limit Exceeded.  Please try again later");
                 System.Windows.Forms.Application.Exit();

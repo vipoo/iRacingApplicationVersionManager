@@ -1,4 +1,5 @@
-﻿using IWshRuntimeLibrary;
+﻿using GitHubReleases;
+using IWshRuntimeLibrary;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace iRacingApplicationVersionManger
 {
-    public class ReleaseInstaller
+    internal class ReleaseInstaller
     {
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);

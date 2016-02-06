@@ -34,7 +34,7 @@ namespace iRacingApplicationVersionManger
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MakePortable(Settings.Default);
+            PortableSettingsProvider.MakePortable(Settings.Default);
             Settings.Default.MainExecPath = Assembly.GetExecutingAssembly().Location;
             Settings.Default.Save();
 
@@ -72,15 +72,6 @@ namespace iRacingApplicationVersionManger
                 installer.Run();
             else
                 Application.Run(new InitialInstallationForm(installer));
-        }
-
-        static void MakePortable(Settings settings)
-        {
-            var pp = settings.Providers.OfType<PortableSettingsProvider>().First();
-
-            foreach (SettingsProperty p in settings.Properties)
-                p.Provider = pp;
-            settings.Reload();
         }
 
         static void CreateUpdateShortCut()
