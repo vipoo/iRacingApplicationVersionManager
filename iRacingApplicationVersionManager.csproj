@@ -91,6 +91,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\GitHubAccessSettings.cs" />
     <Compile Include="GitHubReleases\GitHubAccess.cs" />
     <Compile Include="GitHubReleases\GitHubCachedReleases.cs" />
     <Compile Include="GitHubReleases\GitHubCachedResult.cs" />
