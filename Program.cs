@@ -29,6 +29,9 @@ namespace iRacingApplicationVersionManger
                 return;
             }
 
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             CreateUpdateShortCut();
 
             Application.EnableVisualStyles();
@@ -40,10 +43,22 @@ namespace iRacingApplicationVersionManger
 
             var installer = new ReleaseInstaller("vipoo", "iRacingReplayOverlay.net");
 
+            if (args.Contains("-update-plugin"))
+            {
+                var versionStamp = args.First(a => a.StartsWith("-version=")).Substring("-version=".Length);
+                var pluginInstaller = installer.ForPlugin("iRacingDirector.Plugin.StandardOverlays");
+
+                Application.Run(new PluginInstallationForm(pluginInstaller, versionStamp));
+                return;
+            }
+
             if (args.Contains("-update"))
+            {
                 Application.Run(new VersionManagerForm());
-            else
-                InitialInstallation(installer);
+                return;
+            }
+
+            InitialInstallation(installer);
         }
 
         private static void RunAsAdministrator(string[] args)
@@ -89,6 +104,26 @@ namespace iRacingApplicationVersionManger
             shortcut.Arguments = "-update";
             shortcut.TargetPath = Assembly.GetExecutingAssembly().Location;
             shortcut.Save();
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = e.ExceptionObject as Exception;
+            if (ex != null)
+            {
+                Trace.WriteLine(ex.Message, "INFO");
+                Trace.WriteLine(ex.StackTrace, "DEBUG");
+            }
+            else
+            {
+                Trace.WriteLine(string.Format("An unknown error occured. {0}, {1}", e.ExceptionObject.GetType().Name, e.ExceptionObject.ToString()));
+            }
+        }
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show(string.Format("An error occured.  Details have been logged.\n\n{0}", e.Exception.Message), "Error");
+            Trace.WriteLine(e.Exception.Message, "INFO");
+            Trace.WriteLine(e.Exception.StackTrace, "DEBUG");
         }
     }
 }

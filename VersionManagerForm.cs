@@ -182,7 +182,7 @@ namespace iRacingApplicationVersionManger
                 progressBar1.Value = 0;
                 progressPanel.Visible = true;
 
-                await installer.install(versionToInstall.VersionStamp, p => progressBar1.Value = p);
+                await installer.Install(versionToInstall.VersionStamp, p => progressBar1.Value = p);
 
                 progressBar1.Value = 100;
                 await Task.Delay(200);

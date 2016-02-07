@@ -1,9 +1,6 @@
 ﻿using Octokit;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace iRacingApplicationVersionManger
@@ -26,7 +23,7 @@ namespace iRacingApplicationVersionManger
                 var firstVersion = versions.First();
                 versionInstalling.Text = firstVersion.VersionStamp;
 
-                await installer.install(firstVersion.VersionStamp, p => progressBar1.Value = p);
+                await installer.Install(firstVersion.VersionStamp, p => progressBar1.Value = p);
 
                 installer.Run();
                 this.Close();

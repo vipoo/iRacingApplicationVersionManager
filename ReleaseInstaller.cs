@@ -12,6 +12,90 @@ using System.Threading.Tasks;
 
 namespace iRacingApplicationVersionManger
 {
+    internal class PluginInstaller
+    {
+        private readonly string downloadPath;
+        private string pluginRepo;
+        private string repo;
+        private readonly string tmpPath;
+        private string user;
+        private readonly string pluginPath;
+
+        public PluginInstaller(string user, string repo, string pluginRepo)
+        {
+            this.user = user;
+            this.repo = repo;
+            this.pluginRepo = pluginRepo;
+
+            var programFilesPath = Environment.GetEnvironmentVariable("PROGRAMFILES");
+            var appPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "current");
+            tmpPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "tmp");
+            downloadPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
+            pluginPath = Path.Combine(appPath, "plugins", "overlay");
+        }
+
+        internal async Task Install(string versionStamp, Action<int> progress)
+        {
+            var downloadFilePath = GetDownloadReleaseZipFilePath(versionStamp);
+
+            await download(versionStamp, progress);
+
+            RemoveCurrentRelease();
+            InstallNewRelease(downloadFilePath);
+            progress(100);
+            await Task.Delay(500);
+        }
+
+        string GetDownloadReleaseZipFilePath(string versionStamp)
+        {
+            return Path.Combine(downloadPath, pluginRepo + "-version-" + versionStamp + ".release.zip");
+        }
+
+        async Task download(string versionStamp, Action<int> progress)
+        {
+            var downloadFilePath = GetDownloadReleaseZipFilePath(versionStamp);
+
+            CreateReleaseDirectory();
+            var releaseDownloadUrl = await GetReleaseDownloadUrl(versionStamp);
+            await DownloadReleaseZip(progress, downloadFilePath, releaseDownloadUrl);
+        }
+
+        void CreateReleaseDirectory()
+        {
+            Directory.CreateDirectory(pluginPath);
+        }
+
+        Task<string> GetReleaseDownloadUrl(string versionStamp)
+        {
+            return GitHubAccess.GetReleaseDownloadUrl(user, pluginRepo, versionStamp);
+        }
+
+        static async Task DownloadReleaseZip(Action<int> progress, string downloadFilePath, string releaseDownloadUrl)
+        {
+            using (var webClient = new WebClient())
+            {
+                webClient.DownloadProgressChanged += (s, ee) => progress(ee.ProgressPercentage);
+                await webClient.DownloadFileTaskAsync(new Uri(releaseDownloadUrl), downloadFilePath);
+            }
+        }
+
+        void RemoveCurrentRelease()
+        {
+            var di = new DirectoryInfo(pluginPath);
+            if (di.Exists)
+                di.Delete(true);
+        }
+
+        void InstallNewRelease(string downloadFilePath)
+        {
+            var di = new DirectoryInfo(tmpPath);
+            if (di.Exists)
+                di.Delete(true);
+            ZipFile.ExtractToDirectory(downloadFilePath, tmpPath);
+            di.MoveTo(pluginPath);
+        }
+    }
+
     internal class ReleaseInstaller
     {
         [DllImport("user32.dll")]
@@ -38,7 +122,12 @@ namespace iRacingApplicationVersionManger
             shortCutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "iRacing Applications"); 
         }
 
-        public async Task install(string versionStamp, Action<int> progress) {
+        internal PluginInstaller ForPlugin(string pluginRepo)
+        {
+            return new PluginInstaller(user, repo, pluginRepo);
+        }
+
+        public async Task Install(string versionStamp, Action<int> progress) {
             var downloadFilePath = GetDownloadReleaseZipFilePath(versionStamp);
 
             if (!System.IO.File.Exists(downloadFilePath))
@@ -77,9 +166,7 @@ namespace iRacingApplicationVersionManger
             get
             {
                 if (System.IO.File.Exists(mainExePath))
-                {
                     return AssemblyName.GetAssemblyName(mainExePath).Version.ToString();
-                }
 
                 return null;
             }

@@ -91,6 +91,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PluginInstallationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PluginInstallationForm.Designer.cs">
+      <DependentUpon>PluginInstallationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\GitHubAccessSettings.cs" />
     <Compile Include="GitHubReleases\GitHubAccess.cs" />
     <Compile Include="GitHubReleases\GitHubCachedReleases.cs" />
@@ -114,6 +120,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeElevatedProcess.cs" />
+    <EmbeddedResource Include="PluginInstallationForm.resx">
+      <DependentUpon>PluginInstallationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VersionManagerForm.resx">
       <DependentUpon>VersionManagerForm.cs</DependentUpon>
     </EmbeddedResource>
