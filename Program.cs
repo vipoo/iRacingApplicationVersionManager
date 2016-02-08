@@ -71,7 +71,8 @@ namespace iRacingApplicationVersionManger
 
             try
             {
-                Process.Start(processInfo);
+                var process = Process.Start(processInfo);
+                process.WaitForExit();
             }
             catch
             {
