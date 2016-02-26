@@ -20,7 +20,7 @@ namespace iRacingApplicationVersionManger
             try
             {
                 var versions = await installer.AvailableVersions();
-                var firstVersion = versions.First();
+                var firstVersion = versions.First(v => !v.Prerelease);
                 versionInstalling.Text = firstVersion.VersionStamp;
 
                 await installer.Install(firstVersion.VersionStamp, p => progressBar1.Value = p);
