@@ -106,6 +106,7 @@ namespace iRacingApplicationVersionManger
         readonly string appPath;
         readonly string shortCutPath;
         readonly string mainExePath;
+        readonly string pluginTesterExePath;
         readonly string downloadPath;
         readonly string tmpPath;
 
@@ -119,6 +120,7 @@ namespace iRacingApplicationVersionManger
             tmpPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo, "tmp");
             downloadPath = Path.Combine(programFilesPath, "iRacing Application Version Manager", user, repo);
             mainExePath = appPath + "\\iRacingReplayOverlay.exe";
+            pluginTesterExePath = appPath + "\\iRacingDirector.Plugin.Tester.exe";
             shortCutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "iRacing Applications"); 
         }
 
@@ -136,6 +138,7 @@ namespace iRacingApplicationVersionManger
             RemoveCurrentRelease();
             InstallNewRelease(downloadFilePath);
             createShortCut(versionStamp);
+            CreateTesterShortCut(versionStamp);
         }
 
         public async Task download(string versionStamp, Action<int> progress)
@@ -229,6 +232,24 @@ namespace iRacingApplicationVersionManger
             shortcut.Description = name;
             shortcut.TargetPath = mainExePath;
             shortcut.Save();
+        }
+
+        void CreateTesterShortCut(string versionStamp)
+        {
+            if (System.IO.File.Exists(pluginTesterExePath))
+            {
+                var name = "iRacing Overlay Plugin Tester (" + versionStamp + ")";
+
+                Directory.CreateDirectory(shortCutPath);
+                var shortCutFilePath = Path.Combine(shortCutPath, name + ".lnk");
+
+                var shell = new WshShell();
+                var shortcut = (IWshShortcut)shell.CreateShortcut(shortCutFilePath);
+
+                shortcut.Description = name;
+                shortcut.TargetPath = pluginTesterExePath;
+                shortcut.Save();
+            }
         }
 
         private string GetDownloadReleaseZipFilePath(string versionStamp)
